@@ -28,22 +28,29 @@
         .hidden-view {
             display: none !important;
         }
-        /* Switch/Toggle de Lujo */
-        .toggle-checkbox:checked + .toggle-label {
-            background-color: #d4af37;
+        /* Personalización de barra de scroll para el contenedor de servicios */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
         }
-        .toggle-checkbox:checked + .toggle-label .toggle-dot {
-            transform: translateX(100%);
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(26, 26, 26, 0.3);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(212, 175, 55, 0.4);
         }
     </style>
 </head>
 <body class="bg-gradient-to-br from-stone-950 via-emerald-950 to-stone-950 text-stone-200 font-sans-spa min-h-screen flex flex-col items-center justify-center p-4 relative">
     
-    <!-- Efecto de luz ambiental de fondo -->
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.04),transparent_60%)] pointer-events-none"></div>
 
     <!-- CONTENEDOR PRINCIPAL -->
-    <div class="max-w-2xl w-full bg-stone-900/90 backdrop-blur-md rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-6 sm:p-10 border border-amber-500/20 relative overflow-hidden z-10">
+    <div class="max-w-2xl w-full bg-stone-900/90 backdrop-blur-md rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-5 sm:p-10 border border-amber-500/20 relative overflow-hidden z-10">
         
         <!-- Detalles decorativos dorados elegantes (Líneas de esquina) -->
         <div class="absolute top-0 left-0 w-24 h-1 bg-gradient-to-r from-amber-500/50 to-transparent"></div>
@@ -59,57 +66,45 @@
             </div>
             <div class="text-amber-500 text-sm tracking-widest uppercase font-semibold mb-2">Especial del Día del Padre</div>
             <h1 class="text-4xl sm:text-5xl font-bold font-serif-spa text-white mb-6 leading-tight">
-                Paquetes de Bienestar
+                Arma su Experiencia
             </h1>
             <div class="w-16 h-[1px] bg-amber-500/40 mx-auto mb-6"></div>
             <p class="text-stone-300 text-base sm:text-lg mb-8 leading-relaxed max-w-md mx-auto">
-                Elige la experiencia de relajación ideal para papá y personalízala con un regalo exclusivo para su día.
+                Diseña el paquete de bienestar perfecto para papá. Combina masajes de autor, servicios de spa y cervezas personalizadas.
             </p>
             <button onclick="goToPackages()" class="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold py-3.5 px-10 rounded-full text-lg tracking-wide transition-all duration-300 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20 hover:scale-[1.02]">
-                Ver Paquetes de Masajes
+                Empezar a Diseñar
             </button>
         </div>
 
-        <!-- PANTALLA DE SELECCIÓN DE PAQUETES -->
+        <!-- PANTALLA DE SELECCIÓN DE PAQUETES (ARMA TU PAQUETE) -->
         <div id="view-packages" class="hidden-view fade-in">
-            <div class="flex justify-between items-center mb-6">
+            <div class="flex justify-between items-center mb-5">
                 <button onclick="switchView('view-intro')" class="flex items-center gap-1.5 text-stone-400 hover:text-amber-500 transition-colors text-xs font-semibold tracking-widest uppercase">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     Regresar
                 </button>
-                <span class="text-xs bg-stone-800 text-stone-400 border border-stone-700 px-2.5 py-1 rounded-md font-semibold tracking-wider uppercase">Selección Múltiple</span>
+                <span class="text-xs bg-stone-850 text-stone-400 border border-stone-700 px-2.5 py-1 rounded-md font-semibold tracking-wider uppercase">Paso 1 de 2</span>
             </div>
             
-            <div class="text-center mb-6">
-                <h2 class="text-3xl font-bold font-serif-spa text-white mb-2">Masajes Exclusivos</h2>
-                <p class="text-stone-400 text-sm">Selecciona los masajes que desees agendar para papá</p>
+            <div class="text-center mb-5">
+                <h2 class="text-3xl font-bold font-serif-spa text-white mb-1">Arma tu Paquete</h2>
+                <p class="text-stone-400 text-xs">Selecciona los servicios que deseas incluir para papá</p>
             </div>
             
-            <div id="packages-container" class="space-y-4 mb-6 max-h-[300px] overflow-y-auto pr-2">
-                <!-- Se inyectarán los masajes dinámicamente -->
+            <!-- Contenedor con scroll para los servicios -->
+            <div id="packages-container" class="space-y-3.5 mb-6 max-h-[340px] overflow-y-auto pr-2 custom-scrollbar">
+                <!-- Se inyectarán los servicios dinámicamente -->
             </div>
 
-            <!-- Opción única global de Cerveza de Cortesía -->
-            <div class="bg-stone-950/40 rounded-2xl p-4 mb-6 border border-stone-800/80 flex items-center justify-between gap-4">
-                <div class="flex items-center gap-3">
-                    <span class="text-2xl">🎁</span>
-                    <div>
-                        <h4 class="text-xs sm:text-sm font-bold text-amber-500 tracking-wide uppercase">Cerveza de Cortesía</h4>
-                        <p class="text-[11px] sm:text-xs text-stone-400">¿Deseas agregar una cerveza gratis de regalo? (Incluye test de personalidad)</p>
-                    </div>
+            <!-- Totalizador flotante y botón de confirmación -->
+            <div class="border-t border-stone-800 pt-5 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="text-center sm:text-left">
+                    <span class="text-xs text-stone-400 tracking-wider uppercase block">Total de tu Paquete</span>
+                    <span id="package-total" class="text-2xl sm:text-3xl font-bold font-serif-spa text-amber-400">$0 MXN</span>
                 </div>
-                <div class="relative inline-block w-12 align-middle select-none transition duration-200 ease-in flex-shrink-0">
-                    <input type="checkbox" name="global-beer-toggle" id="global-beer-toggle" onchange="window.toggleGlobalBeer(this.checked)" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-stone-700 border-4 border-stone-900 appearance-none cursor-pointer transition-transform duration-300 ease-in-out"/>
-                    <label for="global-beer-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-stone-800 cursor-pointer transition-colors duration-300">
-                        <span class="toggle-dot absolute block w-4 h-4 rounded-full bg-stone-300 top-1 left-1 transition-transform duration-300"></span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Botón unificado de confirmación -->
-            <div class="border-t border-stone-850 pt-5 flex gap-4">
-                <button id="btn-continue-packages" onclick="processPackageSelection()" class="w-full text-center py-3.5 px-6 rounded-full font-bold text-lg tracking-wide transition-all duration-300">
-                    Selecciona un masaje
+                <button id="btn-continue-packages" onclick="processPackageSelection()" class="w-full sm:w-auto bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold py-3.5 px-8 rounded-full text-lg tracking-wide transition-all duration-300 shadow-lg disabled:opacity-50">
+                    Siguiente
                 </button>
             </div>
         </div>
@@ -136,7 +131,7 @@
         <div id="view-result" class="hidden-view fade-in text-center">
             <button onclick="switchView('view-packages')" class="flex items-center gap-1.5 text-stone-400 hover:text-amber-500 transition-colors text-xs font-semibold tracking-widest uppercase mb-6 mx-auto">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                Modificar Masajes
+                Modificar Paquete
             </button>
             <div class="flex justify-center mb-4">
                 <img src="https://content.app-sources.com/s/416177563587825631/uploads/Images/Logo_Sanuk_Spa_1-8007415.png?format=webp" 
@@ -180,12 +175,16 @@
                     <span id="final-folio-text" class="text-amber-400 text-xl font-mono font-bold tracking-wider"></span>
                 </div>
                 <div>
-                    <span class="text-amber-500/80 uppercase text-xs tracking-widest block font-semibold">Tratamiento(s) Reservado(s):</span>
-                    <span id="final-massage-text" class="text-white text-lg font-bold font-serif-spa"></span>
+                    <span class="text-amber-500/80 uppercase text-xs tracking-widest block font-semibold">Servicios del Paquete:</span>
+                    <span id="final-massage-text" class="text-white text-base font-medium leading-relaxed block mt-1"></span>
                 </div>
                 <div id="final-beer-section" class="hidden">
-                    <span class="text-amber-500/80 uppercase text-xs tracking-widest block font-semibold">Cortesía de Regalo:</span>
+                    <span class="text-amber-500/80 uppercase text-xs tracking-widest block font-semibold">Estilo de Cerveza Elegido:</span>
                     <span id="final-beer-text" class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200 text-lg font-bold font-serif-spa"></span>
+                </div>
+                <div>
+                    <span class="text-amber-500/80 uppercase text-xs tracking-widest block font-semibold">Inversión Total:</span>
+                    <span id="final-total-text" class="text-emerald-400 text-xl font-bold"></span>
                 </div>
             </div>
 
@@ -195,8 +194,7 @@
             <div class="w-12 h-[1px] bg-amber-500/30 mx-auto my-4"></div>
             <p class="text-amber-400 font-semibold font-serif-spa text-lg">
                 ¡Gracias por elegir la experiencia Sanuk! 🎋
-                </p>
-            </div>
+            </p>
         </div>
 
     </div>
@@ -217,7 +215,7 @@
         window.selectBeer = selectBeer;
         window.goToPackages = goToPackages;
         window.togglePackageSelection = togglePackageSelection;
-        window.toggleGlobalBeer = toggleGlobalBeer;
+        window.changeBeerQty = changeBeerQty;
         window.processPackageSelection = processPackageSelection;
         window.handleQuizBack = handleQuizBack;
         window.switchView = switchView;
@@ -254,32 +252,50 @@
             console.error("Firebase no está configurado:", error);
         }
 
-        // --- BASE DE DATOS DE PAQUETES ---
-        const massagePackages = [
+        // --- BASE DE DATOS DE SERVICIOS (CON PRECIOS QUE NO SE MUESTRAN DIRECTAMENTE) ---
+        const packageItems = [
             {
-                id: "orejas",
-                name: "Masaje de Orejas",
-                desc: "Libera la tensión acumulada por escuchar quejas cotidianas. Un tratamiento que armoniza mediante estimulación de puntos energéticos auditivos."
+                id: "descontracturante",
+                name: "Masaje Descontracturante",
+                price: 450,
+                type: "checkbox",
+                desc: "Alivia la tensión muscular profunda acumulada por el estrés diario."
             },
             {
-                id: "dedo_gordo",
-                name: "Masaje de Dedo Gordo del Pie",
-                desc: "La base del equilibrio merecía un trato real. Enfocado en aliviar la presión del punto de apoyo más importante del cuerpo de papá."
+                id: "relajante",
+                name: "Masaje Relajante 50 Min",
+                price: 450,
+                type: "checkbox",
+                desc: "Un viaje de desconexión total para armonizar cuerpo, mente y alma."
             },
             {
-                id: "patas",
-                name: "Masaje de Patas",
-                desc: "Para el descanso absoluto de las extremidades. Estimulación profunda desde el talón al empeine, ideal para restaurar la vitalidad diaria."
+                id: "limpieza",
+                name: "Limpieza Facial",
+                price: 400,
+                type: "checkbox",
+                desc: "Tratamiento revitalizante para purificar, hidratar y renovar su piel."
             },
             {
-                id: "axilas",
-                name: "Masaje de Axilas",
-                desc: "Una experiencia de relajación exótica y atrevida. Libera la rigidez acumulada en la zona superior del torso mediante estiramientos ligeros."
+                id: "cerveza",
+                name: "Cerveza Importada",
+                price: 100,
+                type: "counter",
+                max: 3,
+                desc: "Añade cervezas artesanales para papá (Máximo 3)."
             },
             {
-                id: "unas",
-                name: "Masaje de Uñas",
-                desc: "Un mimo minucioso y ultra detallado para dedos cansados. Estimula las terminaciones nerviosas periféricas para inducir serenidad."
+                id: "tarro",
+                name: "Tarro Colección",
+                price: 100,
+                type: "checkbox",
+                desc: "Tarro cervecero de colección exclusivo conmemorativo de Sanuk Spa."
+            },
+            {
+                id: "decoracion",
+                name: "Decoración Temática",
+                price: 100,
+                type: "checkbox",
+                desc: "Detalles orientales festivos y ambientación especial en cabina."
             }
         ];
 
@@ -390,9 +406,7 @@
         let userAnswers = []; 
         let winningProfileLetter = "";
         let selectedBeer = "";
-        let selectedPackageName = "";
-        let selectedPackages = {}; // Guardará los masajes seleccionados como pares { id: true }
-        let includeBeerGift = false; // Estado del interruptor único global de cerveza
+        let selectedItems = {}; // Estructura: { item_id: true/false para checkbox o número para counter }
 
         // --- FUNCIONES DE NAVEGACIÓN ---
         function switchView(viewId) {
@@ -406,7 +420,7 @@
             targetView.classList.add('fade-in');
         }
 
-        // Navegación a paquetes de masaje
+        // Navegación a selección de paquetes
         function goToPackages() {
             renderPackages();
             switchView('view-packages');
@@ -423,88 +437,116 @@
             }
         }
 
-        // --- MANEJO DE SELECCIÓN DE MASAJES ---
+        // --- MANEJO DE SELECCIÓN DE PAQUETES ---
         function renderPackages() {
             const container = document.getElementById('packages-container');
             container.innerHTML = '';
             
-            massagePackages.forEach((pkg) => {
-                const isSelected = selectedPackages[pkg.id] !== undefined;
-
+            packageItems.forEach((item) => {
                 const card = document.createElement('div');
-                card.className = `bg-stone-900/60 border ${isSelected ? 'border-amber-500 shadow-[0_0_15px_rgba(212,175,55,0.15)] bg-amber-950/5' : 'border-stone-800'} rounded-2xl p-5 hover:border-amber-500/40 transition-all duration-300 flex flex-col justify-between gap-4 cursor-pointer`;
                 
-                // Al hacer clic en la tarjeta se selecciona o deselecciona
-                card.onclick = () => {
-                    togglePackageSelection(pkg.id);
-                };
+                if (item.type === "checkbox") {
+                    const isSelected = selectedItems[item.id] === true;
+                    card.className = `bg-stone-900/60 border ${isSelected ? 'border-amber-500 shadow-[0_0_15px_rgba(212,175,55,0.15)] bg-amber-950/5' : 'border-stone-800'} rounded-2xl p-4 hover:border-amber-500/40 transition-all duration-300 flex flex-col justify-between gap-3 cursor-pointer`;
+                    
+                    card.onclick = () => {
+                        togglePackageSelection(item.id);
+                    };
 
-                card.innerHTML = `
-                    <div>
-                        <div class="flex justify-between items-start mb-2">
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start">
                             <div class="flex items-center gap-3">
-                                <div class="w-5 h-5 rounded-full border ${isSelected ? 'border-amber-500 bg-amber-500 text-stone-950' : 'border-stone-600'} flex items-center justify-center transition-all">
+                                <div class="w-5 h-5 rounded-full border ${isSelected ? 'border-amber-500 bg-amber-500 text-stone-950' : 'border-stone-600'} flex items-center justify-center transition-all flex-shrink-0">
                                     ${isSelected ? '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>' : ''}
                                 </div>
-                                <h3 class="text-xl font-bold font-serif-spa text-white leading-tight">${pkg.name}</h3>
+                                <h3 class="text-lg font-bold font-serif-spa text-white leading-tight">${item.name}</h3>
                             </div>
-                            <span class="text-xs bg-emerald-950 text-emerald-400 border border-emerald-900 px-2 py-1 rounded-md font-semibold tracking-wider uppercase">De Prueba</span>
                         </div>
-                        <p class="text-stone-400 text-sm leading-relaxed">${pkg.desc}</p>
-                    </div>
-                `;
+                        <p class="text-stone-400 text-xs leading-relaxed pl-8">${item.desc}</p>
+                    `;
+                } else if (item.type === "counter") {
+                    const qty = selectedItems[item.id] || 0;
+                    card.className = `bg-stone-900/60 border ${qty > 0 ? 'border-amber-500 shadow-[0_0_15px_rgba(212,175,55,0.15)] bg-amber-950/5' : 'border-stone-800'} rounded-2xl p-4 hover:border-amber-500/40 transition-all duration-300 flex flex-col justify-between gap-3`;
+                    
+                    card.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 rounded-full border ${qty > 0 ? 'border-amber-500 bg-amber-500 text-stone-950' : 'border-stone-600'} flex items-center justify-center transition-all flex-shrink-0">
+                                    ${qty > 0 ? '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>' : ''}
+                                </div>
+                                <h3 class="text-lg font-bold font-serif-spa text-white leading-tight">${item.name}</h3>
+                            </div>
+                            
+                            <!-- Control numérico de incremento/decremento -->
+                            <div class="flex items-center bg-stone-950 border border-stone-800 rounded-full p-1" onclick="event.stopPropagation();">
+                                <button onclick="changeBeerQty('${item.id}', -1)" class="w-8 h-8 rounded-full bg-stone-900 hover:bg-stone-800 text-amber-500 flex items-center justify-center font-bold transition-all hover:scale-105 active:scale-95 disabled:opacity-40" ${qty === 0 ? 'disabled' : ''}>-</button>
+                                <span class="w-8 text-center text-white font-mono font-bold">${qty}</span>
+                                <button onclick="changeBeerQty('${item.id}', 1)" class="w-8 h-8 rounded-full bg-stone-900 hover:bg-stone-800 text-amber-500 flex items-center justify-center font-bold transition-all hover:scale-105 active:scale-95 disabled:opacity-40" ${qty >= item.max ? 'disabled' : ''}>+</button>
+                            </div>
+                        </div>
+                        <p class="text-stone-400 text-xs leading-relaxed pl-8">${item.desc}</p>
+                    `;
+                }
+                
                 container.appendChild(card);
             });
 
-            updateContinueButton();
+            updateTotalAndButton();
         }
 
-        // Alterna el estado de selección de un paquete
-        function togglePackageSelection(pkgId) {
-            if (selectedPackages[pkgId] !== undefined) {
-                delete selectedPackages[pkgId];
-            } else {
-                selectedPackages[pkgId] = true;
-            }
+        // Alterna la selección para checkboxes
+        function togglePackageSelection(itemId) {
+            selectedItems[itemId] = !selectedItems[itemId];
             renderPackages();
         }
 
-        // Alterna el estado del regalo de cerveza de cortesía (global único)
-        function toggleGlobalBeer(isChecked) {
-            includeBeerGift = isChecked;
+        // Modifica la cantidad de cervezas
+        function changeBeerQty(itemId, amount) {
+            const currentQty = selectedItems[itemId] || 0;
+            const item = packageItems.find(p => p.id === itemId);
+            const newQty = Math.max(0, Math.min(item.max, currentQty + amount));
+            selectedItems[itemId] = newQty;
+            renderPackages();
         }
 
-        // Actualiza el estado visual del botón continuar de masajes
-        function updateContinueButton() {
-            const count = Object.keys(selectedPackages).length;
+        // Calcula el total general en tiempo real e inhabilita si no hay selección
+        function updateTotalAndButton() {
+            let total = 0;
+            let hasSelection = false;
+
+            packageItems.forEach(item => {
+                if (item.type === "checkbox" && selectedItems[item.id]) {
+                    total += item.price;
+                    hasSelection = true;
+                } else if (item.type === "counter" && selectedItems[item.id] > 0) {
+                    total += selectedItems[item.id] * item.price;
+                    hasSelection = true;
+                }
+            });
+
+            // Formatear precio total
+            document.getElementById('package-total').innerText = `$${total} MXN`;
+
             const btn = document.getElementById('btn-continue-packages');
-            if (count > 0) {
+            if (hasSelection) {
                 btn.removeAttribute('disabled');
-                btn.className = "w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold py-3.5 px-10 rounded-full text-lg tracking-wide transition-all duration-300 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20 hover:scale-[1.02] text-center";
-                btn.innerText = `Reservar (${count} ${count === 1 ? 'Masaje' : 'Masajes'})`;
+                btn.className = "w-full sm:w-auto bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold py-3.5 px-10 rounded-full text-lg tracking-wide transition-all duration-300 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20 hover:scale-[1.02] text-center";
             } else {
                 btn.setAttribute('disabled', 'true');
-                btn.className = "w-full bg-stone-800 text-stone-500 font-bold py-3.5 px-10 rounded-full text-lg tracking-wide cursor-not-allowed text-center border border-stone-700/50";
-                btn.innerText = "Selecciona al menos un masaje";
+                btn.className = "w-full sm:w-auto bg-stone-800 text-stone-500 font-bold py-3.5 px-10 rounded-full text-lg tracking-wide cursor-not-allowed text-center border border-stone-700/50 opacity-60";
             }
         }
 
-        // Procesa la colección de masajes seleccionada
+        // Procesa la colección del paquete armada
         function processPackageSelection() {
-            const selectedIds = Object.keys(selectedPackages);
-            if (selectedIds.length === 0) return;
+            const beerQty = selectedItems["cerveza"] || 0;
 
-            // Obtiene los nombres de los paquetes seleccionados
-            const names = selectedIds.map(id => {
-                const pkg = massagePackages.find(p => p.id === id);
-                return pkg ? pkg.name : id;
-            });
-            selectedPackageName = names.join(", ");
-
-            if (includeBeerGift) {
+            // Si seleccionó al menos una cerveza (Cerveza > 0), mostrar el cuestionario
+            if (beerQty > 0) {
                 startQuiz();
             } else {
-                saveReservation(selectedPackageName, "Ninguno (Sin cortesía)", "No");
+                // Si no seleccionó cerveza, se salta el cuestionario de forma directa
+                saveReservation("Ninguna (No seleccionó cerveza)", "No");
             }
         }
 
@@ -629,7 +671,8 @@
 
         // Confirmación de Cerveza
         function confirmBeer() {
-            saveReservation(selectedPackageName, selectedBeer, "Sí");
+            const beerQty = selectedItems["cerveza"] || 0;
+            saveReservation(selectedBeer, "Sí", beerQty);
         }
 
         // --- SISTEMA DE GUARDADO ---
@@ -639,20 +682,36 @@
             const yy = date.getFullYear().toString().slice(-2);
             const mm = String(date.getMonth() + 1).padStart(2, '0');
             const dd = String(date.getDate()).padStart(2, '0');
-            // Genera 4 caracteres alfanuméricos únicos en mayúsculas
             const random = Math.random().toString(36).substring(2, 6).toUpperCase();
             return `${prefix}-${yy}${mm}${dd}-${random}`;
         }
 
-        async function saveReservation(massageName, beerName, hasBeer) {
+        async function saveReservation(beerName, hasBeer, beerQty = 0) {
             const folio = generateFolio();
+            
+            // Recopilar nombres de servicios seleccionados para el resumen
+            const activeServices = [];
+            let totalInversion = 0;
+
+            packageItems.forEach(item => {
+                if (item.type === "checkbox" && selectedItems[item.id]) {
+                    activeServices.push(item.name);
+                    totalInversion += item.price;
+                } else if (item.type === "counter" && selectedItems[item.id] > 0) {
+                    activeServices.push(`${item.name} (x${selectedItems[item.id]})`);
+                    totalInversion += selectedItems[item.id] * item.price;
+                }
+            });
+
+            // UI Updates de la pantalla final
             document.getElementById('final-folio-text').innerText = folio;
-            document.getElementById('final-massage-text').innerText = massageName;
+            document.getElementById('final-massage-text').innerText = activeServices.join(", ");
+            document.getElementById('final-total-text').innerText = `$${totalInversion} MXN`;
             
             const beerSection = document.getElementById('final-beer-section');
             if (hasBeer === "Sí") {
                 beerSection.classList.remove('hidden');
-                document.getElementById('final-beer-text').innerText = beerName;
+                document.getElementById('final-beer-text').innerText = `${beerName} (Cantidad: ${beerQty})`;
             } else {
                 beerSection.classList.add('hidden');
             }
@@ -664,9 +723,11 @@
                 try {
                     await addDoc(ordersRef, {
                         folio: folio,
-                        massagePackage: massageName,
+                        services: activeServices,
                         withBeer: hasBeer,
-                        beer: beerName,
+                        beerStyle: hasBeer === "Sí" ? beerName : "Ninguno",
+                        beerQuantity: beerQty,
+                        totalPrice: totalInversion,
                         userId: currentUser.uid,
                         timestamp: Date.now()
                     });
