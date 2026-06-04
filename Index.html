@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanuk Spa - Especial del Día del Padre</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts para un estilo de lujo y relajación oriental -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .font-serif-spa {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        .font-sans-spa {
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        }
+        /* Animaciones suaves para las transiciones */
+        .fade-in {
+            animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hidden-view {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-stone-950 via-emerald-950 to-stone-950 text-stone-200 font-sans-spa min-h-screen flex flex-col items-center justify-center p-4 relative">
+    
+    <!-- Efecto de luz ambiental de fondo -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.04),transparent_60%)] pointer-events-none"></div>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="max-w-2xl w-full bg-stone-900/90 backdrop-blur-md rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-6 sm:p-10 border border-amber-500/20 relative overflow-hidden z-10">
+        
+        <!-- Detalles decorativos dorados elegantes (Líneas de esquina) -->
+        <div class="absolute top-0 left-0 w-24 h-1 bg-gradient-to-r from-amber-500/50 to-transparent"></div>
+        <div class="absolute top-0 left-0 w-1 h-24 bg-gradient-to-b from-amber-500/50 to-transparent"></div>
+        
+        <!-- PANTALLA DE INICIO -->
+        <div id="view-intro" class="text-center fade-in">
+            <!-- Logotipo oficial de Sanuk Spa -->
+            <div class="flex justify-center mb-6">
+                <img src="https://content.app-sources.com/s/416177563587825631/uploads/Images/Logo_Sanuk_Spa_1-8007415.png?format=webp" 
+                     alt="Logo Sanuk Spa" 
+                     class="h-16 sm:h-20 w-auto object-contain filter drop-shadow-[0_2px_10px_rgba(212,175,55,0.25)]"
+                     onerror="this.style.display='none'">
+            </div>
+            <div class="text-amber-500 text-sm tracking-widest uppercase font-semibold mb-2">Especial del Día del Padre</div>
+            <h1 class="text-4xl sm:text-5xl font-bold font-serif-spa text-white mb-6 leading-tight">
+                Cerveza & Bienestar
+            </h1>
+            <div class="w-16 h-[1px] bg-amber-500/40 mx-auto mb-6"></div>
+            <p class="text-stone-300 text-base sm:text-lg mb-8 leading-relaxed max-w-md mx-auto">
+                Responde 5 sencillas preguntas para descubrir el perfil de papá y encontrar la cerveza o hidromiel perfecta para su momento de relajación.
+            </p>
+            <button onclick="startQuiz()" class="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold py-3.5 px-10 rounded-full text-lg tracking-wide transition-all duration-300 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20 hover:scale-[1.02]">
+                Comenzar Experiencia
+            </button>
+        </div>
+
+        <!-- PANTALLA DE PREGUNTAS -->
+        <div id="view-question" class="hidden-view fade-in">
+            <div class="flex justify-between items-center mb-6">
+                <span id="progress-text" class="text-amber-500/80 font-semibold tracking-widest text-xs uppercase">Pregunta 1 de 5</span>
+                <div class="h-1.5 w-32 bg-stone-800 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-amber-600 to-amber-400 transition-all duration-500" style="width: 20%;"></div>
+                </div>
+            </div>
+            <h2 id="question-text" class="text-2xl font-bold font-serif-spa mb-6 text-white leading-snug"></h2>
+            <div id="options-container" class="space-y-3.5">
+                <!-- Las opciones se inyectarán aquí con JavaScript -->
+            </div>
+        </div>
+
+        <!-- PANTALLA DE PERFIL Y SELECCIÓN DE CERVEZA -->
+        <div id="view-result" class="hidden-view fade-in text-center">
+            <!-- Logotipo oficial de Sanuk Spa (Versión compacta para resultados) -->
+            <div class="flex justify-center mb-4">
+                <img src="https://content.app-sources.com/s/416177563587825631/uploads/Images/Logo_Sanuk_Spa_1-8007415.png?format=webp" 
+                     alt="Logo Sanuk Spa" 
+                     class="h-10 sm:h-12 w-auto object-contain opacity-90"
+                     onerror="this.style.display='none'">
+            </div>
+            <div class="text-amber-500/80 text-xs tracking-widest uppercase font-semibold mb-2">Diagnóstico Sanuk</div>
+            <h2 class="text-3xl sm:text-4xl font-bold font-serif-spa text-white mb-3">
+                Papá: <span id="profile-title" class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-400"></span>
+            </h2>
+            <p id="profile-desc" class="text-stone-300 text-sm sm:text-base mb-8 italic max-w-md mx-auto"></p>
+            
+            <div class="bg-stone-950/40 rounded-2xl p-6 text-left mb-6 border border-stone-800 shadow-inner">
+                <label class="block text-base font-semibold tracking-wide mb-4 text-amber-500/90 uppercase text-xs">Menú recomendado de cortesía:</label>
+                <div id="beer-options-container" class="space-y-3">
+                    <!-- Las cervezas se inyectarán aquí como radio buttons -->
+                </div>
+            </div>
+
+            <!-- SECCIÓN DE NÚMERO DE CELULAR -->
+            <div id="phone-container" class="bg-stone-950/40 rounded-2xl p-6 text-left mb-6 border border-stone-800 shadow-inner hidden fade-in">
+                <label for="phone-input" class="block text-base font-semibold tracking-wide mb-1 text-amber-500/90 uppercase text-xs">Número de celular:</label>
+                <p class="text-xs text-stone-400 mb-4">Lo utilizaremos únicamente para coordinar la entrega de tu premio en Sanuk Spa.</p>
+                
+                <input 
+                    type="tel" 
+                    id="phone-input" 
+                    placeholder="Ej: 55 1234 5678" 
+                    maxlength="15"
+                    oninput="document.getElementById('phone-error').classList.add('hidden'); this.classList.remove('border-rose-500/50','focus:border-rose-500','focus:ring-rose-500');"
+                    class="w-full bg-stone-900 text-white border border-stone-800 rounded-xl p-3.5 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all text-lg font-mono placeholder:text-stone-700"
+                >
+                
+                <p id="phone-error" class="text-rose-400 text-xs mt-2.5 hidden flex items-center gap-1.5 font-medium">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    Por favor, ingresa un número de celular válido de 10 dígitos.
+                </p>
+            </div>
+            
+            <button onclick="confirmBeer()" id="btn-confirm" class="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold py-3.5 px-10 rounded-full text-lg tracking-wide transition-all duration-300 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20 hover:scale-[1.02] w-full sm:w-auto hidden">
+                Confirmar y Reservar Cerveza 🍺
+            </button>
+        </div>
+
+        <!-- PANTALLA FINAL -->
+        <div id="view-final" class="hidden-view fade-in text-center py-6">
+            <!-- Logotipo oficial de Sanuk Spa (Triumphant final) -->
+            <div class="flex justify-center mb-6">
+                <img src="https://content.app-sources.com/s/416177563587825631/uploads/Images/Logo_Sanuk_Spa_1-8007415.png?format=webp" 
+                     alt="Logo Sanuk Spa" 
+                     class="h-16 sm:h-20 w-auto object-contain filter drop-shadow-[0_2px_10px_rgba(212,175,55,0.25)]"
+                     onerror="this.style.display='none'">
+            </div>
+            <div class="text-5xl mb-4">✨🎋</div>
+            <h2 class="text-3xl sm:text-4xl font-bold font-serif-spa text-white mb-2">¡Todo Listo!</h2>
+            <p class="text-stone-300 text-base mb-2">Hemos agendado con éxito tu cortesía:</p>
+            <h3 id="final-beer-text" class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200 border-b border-amber-500/20 inline-block pb-2 mb-8 font-serif-spa"></h3>
+            
+            <div class="max-w-md mx-auto bg-stone-950/30 rounded-2xl p-6 border border-stone-800">
+                <p class="text-stone-300 text-sm leading-relaxed mb-4">
+                    Tu elección ha quedado registrada de forma segura en nuestro sistema de <strong>Sanuk Spa</strong>. Nos pondremos en contacto contigo a la brevedad para coordinar la entrega en tu próxima visita o sesión.
+                </p>
+                <div class="w-12 h-[1px] bg-amber-500/30 mx-auto mb-4"></div>
+                <p class="text-amber-400 font-semibold font-serif-spa text-lg">
+                    ¡Gracias por ser parte de la familia Sanuk Spa! 🎋
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LOGO O TEXTO DE PIE DE PÁGINA DE SANUK SPA -->
+    <div class="mt-8 text-center text-stone-500 text-xs tracking-widest uppercase z-10">
+        © 2026 Sanuk Spa. Todos los derechos reservados.
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Exponer funciones al entorno global INMEDIATAMENTE para evitar ReferenceError en el HTML
+        window.startQuiz = startQuiz;
+        window.confirmBeer = confirmBeer;
+        window.selectBeer = selectBeer;
+
+        // --- CONFIGURACIÓN DE BASE DE DATOS FIREBASE ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCdYEVgn1swv83vT2-a3PQKqkSG8in-X6g",
+            authDomain: "sanukspa-7e6f9.firebaseapp.com",
+            projectId: "sanukspa-7e6f9",
+            storageBucket: "sanukspa-7e6f9.firebasestorage.app",
+            messagingSenderId: "1034096822274",
+            appId: "1:1034096822274:web:7b88f53121e158011f3f1b"
+        };
+        const appId = 'dia-del-padre-app';
+
+        let app, auth, db;
+        let currentUser = null;
+        let firebaseActivo = false;
+
+        // Inicializar con try/catch para evitar que un error de Firebase rompa todo el cuestionario
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            firebaseActivo = true;
+
+            // Autenticación anónima para que cualquiera pueda guardar
+            signInAnonymously(auth).catch((error) => {
+                console.error("Error de autenticación:", error);
+                if (error.code === 'auth/configuration-not-found') {
+                    alert("⚠️ Falta configurar Firebase: Ve a tu consola de Firebase -> Authentication -> tab 'Sign-in method' y habilita el proveedor 'Anónimo'.");
+                }
+            });
+
+            onAuthStateChanged(auth, (user) => {
+                currentUser = user;
+            });
+        } catch (error) {
+            console.error("Firebase no está configurado aún o hay un error:", error);
+            console.warn("El cuestionario funcionará, pero no se guardarán datos en la nube hasta que agregues tu configuración.");
+        }
+
+        // --- BASE DE DATOS DEL CUESTIONARIO ---
+        const questions = [
+            {
+                text: "1. Se rompe una tubería en la casa. Papá...",
+                options: [
+                    { letter: "A", text: "Se sienta en una silla y ve el agua correr." },
+                    { letter: "B", text: "Saca su caja de herramientas vieja." },
+                    { letter: "C", text: "Lo arregla temporalmente con un alambre." },
+                    { letter: "D", text: "Grita instrucciones como capitán de barco." },
+                    { letter: "E", text: "Busca un tutorial de ingeniería en YouTube." },
+                    { letter: "F", text: "Llama al plomero y le ofrece un trago." },
+                    { letter: "G", text: "Pone música para 'amenizar' la inundación." }
+                ]
+            },
+            {
+                text: "2. ¿En qué gasta papá sin sentir culpa?",
+                options: [
+                    { letter: "A", text: "Ropa cómoda o sandalias nuevas." },
+                    { letter: "B", text: "Herramientas o cosas de colección." },
+                    { letter: "C", text: "Un buen corte de carne y carbón." },
+                    { letter: "D", text: "El último dispositivo tecnológico para el auto." },
+                    { letter: "E", text: "Libros o café de especialidad." },
+                    { letter: "F", text: "Una botella de alcohol cara." },
+                    { letter: "G", text: "Postres, viajes o salidas familiares." }
+                ]
+            },
+            {
+                text: "3. Hay dos horas de tráfico pesado. Papá...",
+                options: [
+                    { letter: "A", text: "Pone su música y tiene paciencia." },
+                    { letter: "B", text: "Apaga el GPS: 'Yo conozco un atajo'." },
+                    { letter: "C", text: "Le hace la plática al del coche de al lado." },
+                    { letter: "D", text: "Maneja modo Fórmula 1 rebasando a todos." },
+                    { letter: "E", text: "Pone un podcast de historia de 3 horas." },
+                    { letter: "F", text: "Se queja de todo con humor negro." },
+                    { letter: "G", text: "Arma el karaoke familiar a todo volumen." }
+                ]
+            },
+            {
+                text: "4. Es hora de contar un chiste. El suyo es...",
+                options: [
+                    { letter: "A", text: "Tan malo que da risa." },
+                    { letter: "B", text: "El típico juego de palabras inocente." },
+                    { letter: "C", text: "Una anécdota exagerada de su juventud." },
+                    { letter: "D", text: "Uno con final fuerte e inesperado." },
+                    { letter: "E", text: "Sarcasmo puro que pocos entienden." },
+                    { letter: "F", text: "Una historia de borrachera de un amigo." },
+                    { letter: "G", text: "Muy alegre, imitando voces y ruidos." }
+                ]
+            },
+            {
+                text: "5. Su frase típica de vida es...",
+                options: [
+                    { letter: "A", text: "'No te estreses, mañana vemos'." },
+                    { letter: "B", text: "'Las cosas antes duraban más'." },
+                    { letter: "C", text: "'Prende el carbón y ya vemos'." },
+                    { letter: "D", text: "'El que tenga miedo, que no nazca'." },
+                    { letter: "E", text: "'Hay que leer bien las letras chiquitas'." },
+                    { letter: "F", text: "'La última y nos vamos (mentira)'." },
+                    { letter: "G", text: "'La vida es para disfrutar'." }
+                ]
+            }
+        ];
+
+        const profiles = {
+            "A": {
+                name: 'El Papá "Tranqui"',
+                desc: 'Te gusta disfrutar sin complicaciones ni amargores pesados. Tu paladar es fresco.',
+                beers: ["Blonde Ale (4°)", "Cream Ale (3.5°)", "Fake Pilsen (5.5°)", "Lager Japonesa (3°)"]
+            },
+            "B": {
+                name: 'El Papá Clásico',
+                desc: 'Aprecias la buena escuela, el equilibrio y los estilos con historia.',
+                beers: ["Lager Viena (5°)", "Witbier (3.5°)", "Pale Ale (5°)", "IPA Inglesa (4°)"]
+            },
+            "C": {
+                name: 'El Papá "Asador"',
+                desc: 'Tu hábitat natural es cerca del fuego y disfrutas de notas de trigo o ahumadas.',
+                beers: ["Dunkel Weizen (4°)", "Lager Bock (6°)", "Weissbier / Hefeweizen (5°)", "Rauchbier (4.5°)"]
+            },
+            "D": {
+                name: 'El Papá Intenso',
+                desc: 'Te gustan los retos, la intensidad y los aromas potentes a lúpulo.',
+                beers: ["APA (5.5°)", "NEIPA (5°)", "Red Ale (6°)"]
+            },
+            "E": {
+                name: 'El Papá Intelectual',
+                desc: 'Disfrutas de la buena charla y los sabores oscuros y complejos a café y chocolate.',
+                beers: ["Doppelbock (7°)", "Porter Ligera (4°)", "Milk Stout (5°)", "Stout (5.5°)"]
+            },
+            "F": {
+                name: 'El Papá "Malas Influencias"',
+                desc: 'Buscas cuerpo denso, carácter y un grado de alcohol que se haga respetar.',
+                beers: ["Golden Belgian (8.5°)", "Imperial Stout Piñón (10°)"]
+            },
+            "G": {
+                name: 'El Papá "Yo no tomo cheve"',
+                desc: 'Prefieres lo dulce, lo frutal y los sabores que recuerdan a un buen cóctel.',
+                beers: ["Hidromiel Citrus (9.5°)", "Hidromiel Frutos Rojos con Vino (9.5°)", "Hidromiel Tamarindo (9.5°)", "Hidromiel Coco (9.5°)", "Hidromiel Maracuyá (9.5°)", "Hidromiel Jamaica (9.5°)"]
+            }
+        };
+
+        // --- VARIABLES DE ESTADO ---
+        let currentQuestionIndex = 0;
+        let userAnswers = []; 
+        let winningProfileLetter = "";
+        let selectedBeer = "";
+
+        // --- FUNCIONES DE NAVEGACIÓN ---
+        function switchView(viewId) {
+            document.querySelectorAll('div[id^="view-"]').forEach(el => {
+                el.classList.add('hidden-view');
+                el.classList.remove('fade-in'); // Reset animation
+            });
+            const targetView = document.getElementById(viewId);
+            targetView.classList.remove('hidden-view');
+            // Trigger reflow to restart animation
+            void targetView.offsetWidth; 
+            targetView.classList.add('fade-in');
+        }
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            switchView('view-question');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestionIndex];
+            
+            // UI Updates
+            document.getElementById('progress-text').innerText = `Pregunta ${currentQuestionIndex + 1} de ${questions.length}`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
+            document.getElementById('question-text').innerText = q.text;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = ''; // Limpiar opciones anteriores
+
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left bg-stone-800/60 hover:bg-emerald-950/50 border border-stone-800 hover:border-amber-500/50 rounded-2xl p-4 transition-all duration-300 text-stone-300 hover:text-white flex items-start gap-4 group";
+                
+                // Formato del botón (Letra en un círculo dorado + texto)
+                btn.innerHTML = `
+                    <span class="flex-shrink-0 w-8 h-8 rounded-full bg-stone-950 group-hover:bg-amber-500 group-hover:text-stone-950 flex items-center justify-center font-bold border border-stone-800 group-hover:border-amber-500 transition-all duration-300">
+                        ${opt.letter}
+                    </span>
+                    <span class="mt-1 font-medium transition-colors duration-300">${opt.text}</span>
+                `;
+                
+                btn.onclick = () => handleAnswer(opt.letter, opt.text);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(letter, text) {
+            // Guardar respuesta
+            userAnswers.push({
+                question: questions[currentQuestionIndex].text,
+                answer: text,
+                letter: letter
+            });
+
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                // Pequeño retraso para que se vea qué apretó antes de cambiar
+                setTimeout(renderQuestion, 200);
+            } else {
+                calculateResults();
+            }
+        }
+
+        function calculateResults() {
+            // Contar las letras
+            const counts = {};
+            userAnswers.forEach(ans => {
+                counts[ans.letter] = (counts[ans.letter] || 0) + 1;
+            });
+
+            // Encontrar la letra con más votos
+            let maxVotes = 0;
+            for (const letter in counts) {
+                if (counts[letter] > maxVotes) {
+                    maxVotes = counts[letter];
+                    winningProfileLetter = letter;
+                }
+            }
+
+            showProfile();
+        }
+
+        function showProfile() {
+            const profile = profiles[winningProfileLetter];
+            
+            document.getElementById('profile-title').innerText = profile.name;
+            document.getElementById('profile-desc').innerText = profile.desc;
+
+            const container = document.getElementById('beer-options-container');
+            container.innerHTML = '';
+            
+            // Ocultar sección de teléfono al iniciar la vista (se muestra tras elegir)
+            document.getElementById('phone-container').classList.add('hidden');
+            document.getElementById('phone-input').value = ""; // Limpiar teléfono
+            document.getElementById('phone-error').classList.add('hidden'); // Ocultar errores previos
+
+            // Crear Radio Buttons estilizados interactivos estilo Spa
+            profile.beers.forEach((beer) => {
+                const div = document.createElement('div');
+                div.className = "flex items-center bg-stone-900/80 p-4 rounded-xl border border-stone-800 cursor-pointer hover:border-amber-500/30 hover:bg-emerald-950/20 transition-all duration-300 shadow-sm";
+                div.onclick = () => window.selectBeer(beer, div);
+                
+                div.innerHTML = `
+                    <div class="w-6 h-6 rounded-full border-2 border-stone-700 mr-4 flex items-center justify-center radio-indicator flex-shrink-0 transition-all duration-300">
+                        <div class="w-3 h-3 bg-amber-500 rounded-full hidden inner-dot"></div>
+                    </div>
+                    <span class="text-stone-300 font-medium text-lg">${beer}</span>
+                `;
+                container.appendChild(div);
+            });
+
+            switchView('view-result');
+        }
+
+        // Selecciona una cerveza de la lista ("Select Point")
+        function selectBeer(beer, element) {
+            selectedBeer = beer;
+            
+            // Limpiar estados visuales de las demás cervezas
+            document.querySelectorAll('.radio-indicator').forEach(el => {
+                el.classList.remove('border-amber-500');
+                el.classList.add('border-stone-700');
+            });
+            document.querySelectorAll('.inner-dot').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('#beer-options-container > div').forEach(el => {
+                el.classList.remove('bg-emerald-950/30', 'border-amber-500/50');
+                el.classList.add('border-stone-800');
+            });
+            
+            // Marcar opción actual
+            const indicator = element.querySelector('.radio-indicator');
+            const dot = element.querySelector('.inner-dot');
+            indicator.classList.remove('border-stone-700');
+            indicator.classList.add('border-amber-500');
+            element.classList.remove('border-stone-800');
+            element.classList.add('bg-emerald-950/30', 'border-amber-500/50');
+            dot.classList.remove('hidden');
+
+            // Revelar sección de celular y el botón de guardar
+            const phoneContainer = document.getElementById('phone-container');
+            phoneContainer.classList.remove('hidden');
+            
+            // Scroll suave hacia la sección del número de teléfono
+            setTimeout(() => {
+                phoneContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 150);
+
+            document.getElementById('btn-confirm').classList.remove('hidden');
+        }
+
+        // Guarda Automáticamente en Firebase con Validación
+        async function confirmBeer() {
+            if (!selectedBeer) return;
+
+            const phoneInput = document.getElementById('phone-input');
+            const phoneError = document.getElementById('phone-error');
+            
+            // Limpiamos el valor para evaluar solo números puros
+            const cleanedPhone = phoneInput.value.replace(/\D/g, '');
+
+            // Validación: Debe tener exactamente 10 dígitos (Estándar de celulares en México)
+            if (cleanedPhone.length !== 10) {
+                phoneError.classList.remove('hidden');
+                phoneInput.classList.add('border-rose-500/50', 'focus:border-rose-500', 'focus:ring-rose-500');
+                phoneInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            document.getElementById('final-beer-text').innerText = selectedBeer;
+            
+            // Transición inmediata a pantalla final de éxito
+            switchView('view-final');
+
+            // Insertar a la base de datos de la nube
+            if (firebaseActivo && currentUser) {
+                const profile = profiles[winningProfileLetter];
+                const ordersRef = collection(db, 'artifacts', appId, 'public', 'data', 'orders');
+                
+                try {
+                    await addDoc(ordersRef, {
+                        beer: selectedBeer,
+                        profile: profile.name,
+                        phone: cleanedPhone, // Guardamos el número limpio y validado
+                        userId: currentUser.uid,
+                        timestamp: Date.now() // Timestamp manual para organizar por fecha
+                    });
+                } catch (error) {
+                    console.error("Error al guardar en base de datos:", error);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
