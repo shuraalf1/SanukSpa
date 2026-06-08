@@ -87,23 +87,135 @@
                 <span class="text-xs bg-stone-850 text-stone-400 border border-stone-700 px-2.5 py-1 rounded-md font-semibold tracking-wider uppercase">Paso 1 de 2</span>
             </div>
             
-            <div class="text-center mb-5">
-                <h2 class="text-3xl font-bold font-serif-spa text-white mb-1">Arma tu Paquete</h2>
-                <p class="text-stone-400 text-xs">Selecciona los servicios que deseas incluir para papá</p>
-            </div>
-            
-            <!-- Contenedor con scroll para los servicios -->
-            <div id="packages-container" class="space-y-3.5 mb-6 max-h-[340px] overflow-y-auto pr-2 custom-scrollbar">
-                <!-- Se inyectarán los servicios dinámicamente -->
+            <!-- Selector de Modo: Diseñado vs Personalizado -->
+            <div class="flex bg-stone-950 rounded-full p-1 mb-6 border border-stone-800">
+                <button id="tab-predesigned" onclick="setSelectionMode('predesigned')" class="flex-1 text-center py-2 px-3 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-amber-600 text-stone-950">
+                    Paquetes Sanuk
+                </button>
+                <button id="tab-custom" onclick="setSelectionMode('custom')" class="flex-1 text-center py-2 px-3 rounded-full text-xs text-stone-400 hover:text-white font-bold tracking-wider uppercase transition-all duration-300">
+                    Armar a la medida
+                </button>
             </div>
 
-            <!-- Totalizador flotante y botón de confirmación -->
-            <div class="border-t border-stone-800 pt-5 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <!-- CONTENIDO DE PAQUETES PRE-DISEÑADOS -->
+            <div id="section-predesigned" class="space-y-4">
+                <div class="text-center mb-4">
+                    <h2 class="text-2xl font-bold font-serif-spa text-white">Elegir Paquete Premium</h2>
+                    <p class="text-stone-400 text-xs mt-1">Nuestras mejores combinaciones listas para consentir a papá</p>
+                </div>
+                
+                <!-- Grid de imágenes y descripciones de los 4 paquetes -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[340px] overflow-y-auto pr-1 custom-scrollbar">
+                    
+                    <!-- Paquete 1 -->
+                    <div id="pkg-1" onclick="selectPrepackage(1)" class="group bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden cursor-pointer hover:border-amber-500/50 transition-all duration-300 flex flex-col">
+                        <div class="relative aspect-video w-full overflow-hidden bg-stone-950">
+                            <img src="https://raw.githubusercontent.com/shuraalf1/SanukSpa/refs/heads/main/paquete_1.jpeg" 
+                                 alt="Paquete Imperial" 
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                 onerror="this.src='https://placehold.co/600x400/1c1917/d4af37?text=Paquete+Imperial'">
+                            <span class="absolute top-2 right-2 bg-amber-500 text-stone-950 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Cerveza Incluida 🍺</span>
+                            
+                            <!-- Botón de zoom/ampliar imagen -->
+                            <button onclick="openImageModal('https://raw.githubusercontent.com/shuraalf1/SanukSpa/refs/heads/main/paquete_1.jpeg', 'Paquete Imperial', event)" class="absolute bottom-2 right-2 bg-stone-950/90 hover:bg-amber-500 hover:text-stone-950 text-amber-500 p-2 rounded-full border border-amber-500/30 transition-all duration-300 shadow-md z-20" title="Ampliar imagen">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+                            </button>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-serif-spa text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Paquete Imperial</h3>
+                                <p class="text-stone-400 text-xs mt-1 leading-relaxed">Experiencia de bienestar total premium con masajes de relajación y cortesía cervecera selecta.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Paquete 2 -->
+                    <div id="pkg-2" onclick="selectPrepackage(2)" class="group bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden cursor-pointer hover:border-amber-500/50 transition-all duration-300 flex flex-col">
+                        <div class="relative aspect-video w-full overflow-hidden bg-stone-950">
+                            <img src="https://raw.githubusercontent.com/shuraalf1/SanukSpa/refs/heads/main/paquete_2.jpeg" 
+                                 alt="Paquete Premium" 
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                 onerror="this.src='https://placehold.co/600x400/1c1917/d4af37?text=Paquete+Premium'">
+                            <span class="absolute top-2 right-2 bg-amber-500 text-stone-950 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Cerveza Incluida 🍺</span>
+                            
+                            <!-- Botón de zoom/ampliar imagen -->
+                            <button onclick="openImageModal('https://raw.githubusercontent.com/shuraalf1/SanukSpa/refs/heads/main/paquete_2.jpeg', 'Paquete Premium', event)" class="absolute bottom-2 right-2 bg-stone-950/90 hover:bg-amber-500 hover:text-stone-950 text-amber-500 p-2 rounded-full border border-amber-500/30 transition-all duration-300 shadow-md z-20" title="Ampliar imagen">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+                            </button>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-serif-spa text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Paquete Premium</h3>
+                                <p class="text-stone-400 text-xs mt-1 leading-relaxed">Renovación integral con masajes de alta intensidad y un refrescante premio artesanal.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Paquete 3 -->
+                    <div id="pkg-3" onclick="selectPrepackage(3)" class="group bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden cursor-pointer hover:border-amber-500/50 transition-all duration-300 flex flex-col">
+                        <div class="relative aspect-video w-full overflow-hidden bg-stone-950">
+                            <img src="https://raw.githubusercontent.com/shuraalf1/SanukSpa/refs/heads/main/paquete_3.jpeg" 
+                                 alt="Paquete Clásico" 
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                 onerror="this.src='https://placehold.co/600x400/1c1917/d4af37?text=Paquete+Clasico'">
+                            
+                            <!-- Botón de zoom/ampliar imagen -->
+                            <button onclick="openImageModal('https://raw.githubusercontent.com/shuraalf1/SanukSpa/refs/heads/main/paquete_3.jpeg', 'Paquete Clásico', event)" class="absolute bottom-2 right-2 bg-stone-950/90 hover:bg-amber-500 hover:text-stone-950 text-amber-500 p-2 rounded-full border border-amber-500/30 transition-all duration-300 shadow-md z-20" title="Ampliar imagen">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+                            </button>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-serif-spa text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Paquete Clásico</h3>
+                                <p class="text-stone-400 text-xs mt-1 leading-relaxed">Terapia de descanso ideal para liberar tensiones corporales mediante técnicas orientales de cabina.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Paquete 4 -->
+                    <div id="pkg-4" onclick="selectPrepackage(4)" class="group bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden cursor-pointer hover:border-amber-500/50 transition-all duration-300 flex flex-col">
+                        <div class="relative aspect-video w-full overflow-hidden bg-stone-950">
+                            <img src="https://raw.githubusercontent.com/shuraalf1/SanukSpa/refs/heads/main/paquete_4.jpeg" 
+                                 alt="Paquete Express" 
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                 onerror="this.src='https://placehold.co/600x400/1c1917/d4af37?text=Paquete+Express'">
+                            
+                            <!-- Botón de zoom/ampliar imagen -->
+                            <button onclick="openImageModal('https://raw.githubusercontent.com/shuraalf1/SanukSpa/refs/heads/main/paquete_4.jpeg', 'Paquete Express', event)" class="absolute bottom-2 right-2 bg-stone-950/90 hover:bg-amber-500 hover:text-stone-950 text-amber-500 p-2 rounded-full border border-amber-500/30 transition-all duration-300 shadow-md z-20" title="Ampliar imagen">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+                            </button>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-serif-spa text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Paquete Express</h3>
+                                <p class="text-stone-400 text-xs mt-1 leading-relaxed">Sesión corta pero sumamente efectiva para restablecer vitalidad en pies, cuello y hombros.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- CONTENIDO DE ARMADO A LA MEDIDA -->
+            <div id="section-custom" class="hidden-view space-y-4">
+                <div class="text-center mb-4">
+                    <h2 class="text-2xl font-bold font-serif-spa text-white">Diseñar a la Medida</h2>
+                    <p class="text-stone-400 text-xs mt-1">Arma un paquete 100% único combinando tratamientos y complementos</p>
+                </div>
+                
+                <!-- Contenedor con scroll de los servicios a armar -->
+                <div id="custom-services-container" class="space-y-3 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+                    <!-- Los items de diseño a la medida se inyectarán dinámicamente con JS -->
+                </div>
+            </div>
+
+            <!-- Totalizador inferior y confirmación -->
+            <div class="border-t border-stone-800 mt-6 pt-5 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div class="text-center sm:text-left">
-                    <span class="text-xs text-stone-400 tracking-wider uppercase block">Total de tu Paquete</span>
+                    <span class="text-xs text-stone-400 tracking-wider uppercase block">Total del Paquete</span>
                     <span id="package-total" class="text-2xl sm:text-3xl font-bold font-serif-spa text-amber-400">$0 MXN</span>
                 </div>
-                <button id="btn-continue-packages" onclick="processPackageSelection()" class="w-full sm:w-auto bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold py-3.5 px-8 rounded-full text-lg tracking-wide transition-all duration-300 shadow-lg disabled:opacity-50">
+                <button id="btn-continue-packages" onclick="processPackageSelection()" class="w-full sm:w-auto bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold py-3.5 px-8 rounded-full text-lg tracking-wide transition-all duration-300 shadow-lg disabled:opacity-50" disabled>
                     Siguiente
                 </button>
             </div>
@@ -129,7 +241,7 @@
 
         <!-- PANTALLA DE PERFIL Y SELECCIÓN DE CERVEZA -->
         <div id="view-result" class="hidden-view fade-in text-center">
-            <button onclick="switchView('view-packages')" class="flex items-center gap-1.5 text-stone-400 hover:text-amber-500 transition-colors text-xs font-semibold tracking-widest uppercase mb-6 mx-auto">
+            <button onclick="switchSelectionViewFromResults()" class="flex items-center gap-1.5 text-stone-400 hover:text-amber-500 transition-colors text-xs font-semibold tracking-widest uppercase mb-6 mx-auto">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 Modificar Paquete
             </button>
@@ -166,12 +278,17 @@
                      onerror="this.style.display='none'">
             </div>
             <div class="text-5xl mb-4">✨🎋</div>
-            <h2 class="text-3xl sm:text-4xl font-bold font-serif-spa text-white mb-2">¡Reserva Completada!</h2>
-            <p class="text-stone-300 text-base mb-2">Hemos agendado tu experiencia en Sanuk Spa:</p>
+            <h2 class="text-3xl sm:text-4xl font-bold font-serif-spa text-white mb-2">¡Pedido Completado!</h2>
+            <p class="text-stone-300 text-base mb-2 px-4 leading-relaxed">
+                Contacta a Sanuk para realizar la reservación. <br>
+                <span class="text-amber-500/90 text-sm font-medium italic block mt-1.5">
+                    (Para reservación se requiere 50% anticipo)
+                </span>
+            </p>
             
             <div class="max-w-md mx-auto bg-stone-950/30 rounded-2xl p-6 border border-stone-800 text-left space-y-4 mb-6">
                 <div>
-                    <span class="text-amber-500/80 uppercase text-xs tracking-widest block font-semibold">Folio de Reservación:</span>
+                    <span class="text-amber-500/80 uppercase text-xs tracking-widest block font-semibold">Folio de Pedido:</span>
                     <span id="final-folio-text" class="text-amber-400 text-xl font-mono font-bold tracking-wider"></span>
                 </div>
                 <div>
@@ -188,8 +305,19 @@
                 </div>
             </div>
 
-            <p class="text-stone-400 text-sm max-w-sm mx-auto leading-relaxed">
-                Tu sesión ha sido registrada en nuestro sistema de <strong>Sanuk Spa</strong>. Estaremos listos para consentirte en tu próxima visita.
+            <!-- Nota Especial: Experiencia de Degustación Gratuita -->
+            <div class="max-w-md mx-auto bg-emerald-950/25 border border-emerald-500/20 rounded-2xl p-4 mb-6 text-left flex items-start gap-3 shadow-lg">
+                <span class="text-2xl mt-0.5">💡</span>
+                <div>
+                    <h4 class="text-amber-400 font-bold font-serif-spa text-sm tracking-wide uppercase">Cortesía de Sanuk Spa</h4>
+                    <p class="text-stone-300 text-xs mt-1 leading-relaxed">
+                        ¿Desean enriquecer su visita? Al confirmar la reservación, pueden solicitar la <strong>experiencia de degustación y explicación guiada de la cerveza</strong> para papá de forma <strong>100% gratuita</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <p class="text-stone-400 text-sm max-w-sm mx-auto leading-relaxed px-4">
+                Tu solicitud de pedido ha sido registrada en nuestro sistema de <strong>Sanuk Spa</strong>. Recuerda comunicarte con nosotros para finalizar la confirmación de tu experiencia.
             </p>
             <div class="w-12 h-[1px] bg-amber-500/30 mx-auto my-4"></div>
             <p class="text-amber-400 font-semibold font-serif-spa text-lg">
@@ -204,21 +332,42 @@
         © 2026 Sanuk Spa. Todos los derechos reservados.
     </div>
 
+    <!-- MODAL DE VISUALIZACIÓN / AMPLIACIÓN DE IMAGEN -->
+    <div id="image-modal" onclick="closeImageModal()" class="hidden-view fixed inset-0 z-50 flex flex-col items-center justify-center p-4 bg-stone-950/95 backdrop-blur-md transition-all duration-300">
+        <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center" onclick="event.stopPropagation()">
+            <!-- Botón de Cerrar Modal -->
+            <button onclick="closeImageModal()" class="absolute -top-12 right-0 bg-stone-900 hover:bg-stone-800 text-amber-500 rounded-full p-2.5 border border-amber-500/20 transition-all duration-300 shadow-lg active:scale-95" title="Cerrar vista">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <!-- Imagen expandida -->
+            <img id="modal-img" src="" alt="Imagen del Paquete de Sanuk Spa" class="max-w-full max-h-[75vh] rounded-2xl object-contain border border-amber-500/20 shadow-2xl transition-all duration-300">
+            <!-- Título de la imagen -->
+            <p id="modal-img-caption" class="text-white font-serif-spa text-xl sm:text-2xl mt-4 text-center font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200"></p>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Exponer funciones al entorno global
+        // Exponer funciones al entorno global INMEDIATAMENTE para evitar ReferenceError en el HTML
         window.startQuiz = startQuiz;
         window.confirmBeer = confirmBeer;
         window.selectBeer = selectBeer;
         window.goToPackages = goToPackages;
-        window.togglePackageSelection = togglePackageSelection;
+        window.setSelectionMode = setSelectionMode;
+        window.selectPrepackage = selectPrepackage;
+        window.toggleCustomSelection = toggleCustomSelection;
         window.changeBeerQty = changeBeerQty;
         window.processPackageSelection = processPackageSelection;
         window.handleQuizBack = handleQuizBack;
+        window.switchSelectionViewFromResults = switchSelectionViewFromResults;
         window.switchView = switchView;
+        
+        // Exponer funciones de ampliación de imagen globales
+        window.openImageModal = openImageModal;
+        window.closeImageModal = closeImageModal;
 
         // --- CONFIGURACIÓN DE BASE DE DATOS FIREBASE ---
         const firebaseConfig = {
@@ -235,12 +384,14 @@
         let currentUser = null;
         let firebaseActivo = false;
 
+        // Inicializar con try/catch para evitar que un error de Firebase rompa todo el cuestionario
         try {
             app = initializeApp(firebaseConfig);
             auth = getAuth(app);
             db = getFirestore(app);
             firebaseActivo = true;
 
+            // Autenticación anónima para que cualquiera pueda guardar
             signInAnonymously(auth).catch((error) => {
                 console.error("Error de autenticación:", error);
             });
@@ -249,54 +400,25 @@
                 currentUser = user;
             });
         } catch (error) {
-            console.error("Firebase no está configurado:", error);
+            console.error("Firebase no está configurado aún o hay un error:", error);
         }
 
-        // --- BASE DE DATOS DE SERVICIOS (CON PRECIOS QUE NO SE MUESTRAN DIRECTAMENTE) ---
-        const packageItems = [
-            {
-                id: "descontracturante",
-                name: "Masaje Descontracturante",
-                price: 450,
-                type: "checkbox",
-                desc: "Alivia la tensión muscular profunda acumulada por el estrés diario."
-            },
-            {
-                id: "relajante",
-                name: "Masaje Relajante 50 Min",
-                price: 450,
-                type: "checkbox",
-                desc: "Un viaje de desconexión total para armonizar cuerpo, mente y alma."
-            },
-            {
-                id: "limpieza",
-                name: "Limpieza Facial",
-                price: 400,
-                type: "checkbox",
-                desc: "Tratamiento revitalizante para purificar, hidratar y renovar su piel."
-            },
-            {
-                id: "cerveza",
-                name: "Cerveza Importada",
-                price: 100,
-                type: "counter",
-                max: 3,
-                desc: "Añade cervezas artesanales para papá (Máximo 3)."
-            },
-            {
-                id: "tarro",
-                name: "Tarro Colección",
-                price: 100,
-                type: "checkbox",
-                desc: "Tarro cervecero de colección exclusivo conmemorativo de Sanuk Spa."
-            },
-            {
-                id: "decoracion",
-                name: "Decoración Temática",
-                price: 100,
-                type: "checkbox",
-                desc: "Detalles orientales festivos y ambientación especial en cabina."
-            }
+        // --- BASE DE DATOS DE LOS PAQUETES PRE-DISEÑADOS (CON PRECIOS QUE NO SE MUESTRAN DIRECTAMENTE) ---
+        const predesignedPackages = {
+            1: { name: "Paquete Imperial", price: 1350, hasBeer: true, desc: "Experiencia de bienestar total premium con masajes de relajación y cortesía cervecera selecta." },
+            2: { name: "Paquete Premium", price: 950, hasBeer: true, desc: "Renovación integral con masajes de alta intensidad y un refrescante premio artesanal." },
+            3: { name: "Paquete Clásico", price: 850, hasBeer: false, desc: "Terapia de descanso ideal para liberar tensiones corporales mediante técnicas orientales de cabina." },
+            4: { name: "Paquete Express", price: 600, hasBeer: false, desc: "Sesión corta pero sumamente efectiva para restablecer vitalidad en pies, cuello y hombros." }
+        };
+
+        // --- BASE DE DATOS DEL DISEÑADOR A LA MEDIDA ---
+        const customItems = [
+            { id: "descontracturante", name: "Masaje Descontracturante", price: 450, type: "checkbox", desc: "Alivia tensiones acumuladas en la espalda profunda y cuello." },
+            { id: "relajante", name: "Masaje Relajante 50 Min", price: 450, type: "checkbox", desc: "Sesión ideal para relajar cuerpo y calmar la mente." },
+            { id: "limpieza", name: "Limpieza Facial", price: 400, type: "checkbox", desc: "Renovación y purificación de la piel con extractos naturales." },
+            { id: "cerveza", name: "Cerveza Importada", price: 100, type: "counter", max: 3, desc: "Suma cervezas artesanales a su cortesía (Máximo 3 unidades)." },
+            { id: "tarro", name: "Tarro Sanuk de Colección", price: 100, type: "checkbox", desc: "Tarro de edición especial conmemorativo de Sanuk Spa." },
+            { id: "decoracion", name: "Decoración Temática", price: 100, type: "checkbox", desc: "Detalles personalizados, iluminación y música especial de cabina." }
         ];
 
         // --- BASE DE DATOS DEL CUESTIONARIO ---
@@ -406,13 +528,37 @@
         let userAnswers = []; 
         let winningProfileLetter = "";
         let selectedBeer = "";
-        let selectedItems = {}; // Estructura: { item_id: true/false para checkbox o número para counter }
+
+        // Estados del Creador de Paquetes
+        let currentMode = "predesigned"; // "predesigned" o "custom"
+        let selectedPrepackageId = null; // 1, 2, 3 o 4
+        let selectedCustomItems = {}; // Estructura: { item_id: true/false para checkbox o número para counter }
+
+        // --- FUNCIONES DE AMPLIACIÓN DE IMAGENES ---
+        function openImageModal(src, caption, event) {
+            if (event) {
+                event.stopPropagation(); // Evitar que el clic en el botón active o seleccione la tarjeta
+            }
+            const modal = document.getElementById('image-modal');
+            const img = document.getElementById('modal-img');
+            const captionEl = document.getElementById('modal-img-caption');
+            
+            img.src = src;
+            captionEl.innerText = caption;
+            
+            modal.classList.remove('hidden-view');
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.add('hidden-view');
+        }
 
         // --- FUNCIONES DE NAVEGACIÓN ---
         function switchView(viewId) {
             document.querySelectorAll('div[id^="view-"]').forEach(el => {
                 el.classList.add('hidden-view');
-                el.classList.remove('fade-in');
+                el.classList.remove('fade-in'); // Reset animation
             });
             const targetView = document.getElementById(viewId);
             targetView.classList.remove('hidden-view');
@@ -420,9 +566,15 @@
             targetView.classList.add('fade-in');
         }
 
-        // Navegación a selección de paquetes
+        // Navegación principal a paquetes
         function goToPackages() {
-            renderPackages();
+            renderCustomItems();
+            updatePackageTotal();
+            switchView('view-packages');
+        }
+
+        // Regresar a la selección desde el perfil de resultados
+        function switchSelectionViewFromResults() {
             switchView('view-packages');
         }
 
@@ -437,20 +589,69 @@
             }
         }
 
-        // --- MANEJO DE SELECCIÓN DE PAQUETES ---
-        function renderPackages() {
-            const container = document.getElementById('packages-container');
-            container.innerHTML = '';
+        // --- MANEJO DE SELECCIÓN DE MODOS DE PAQUETE ---
+        function setSelectionMode(mode) {
+            currentMode = mode;
             
-            packageItems.forEach((item) => {
+            const btnPredesigned = document.getElementById('tab-predesigned');
+            const btnCustom = document.getElementById('tab-custom');
+            
+            const secPredesigned = document.getElementById('section-predesigned');
+            const secCustom = document.getElementById('section-custom');
+
+            if (mode === 'predesigned') {
+                btnPredesigned.className = "flex-1 text-center py-2 px-3 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-amber-600 text-stone-950";
+                btnCustom.className = "flex-1 text-center py-2 px-3 rounded-full text-xs text-stone-400 hover:text-white font-bold tracking-wider uppercase transition-all duration-300";
+                
+                secPredesigned.classList.remove('hidden-view');
+                secCustom.classList.add('hidden-view');
+            } else {
+                btnCustom.className = "flex-1 text-center py-2 px-3 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-amber-600 text-stone-950";
+                btnPredesigned.className = "flex-1 text-center py-2 px-3 rounded-full text-xs text-stone-400 hover:text-white font-bold tracking-wider uppercase transition-all duration-300";
+                
+                secCustom.classList.remove('hidden-view');
+                secPredesigned.classList.add('hidden-view');
+            }
+            updatePackageTotal();
+        }
+
+        // --- SELECCIÓN DE PAQUETE PRE-DISEÑADO ---
+        function selectPrepackage(id) {
+            selectedPrepackageId = id;
+            
+            // Limpiar selección visual en las demás tarjetas
+            [1, 2, 3, 4].forEach(pId => {
+                const el = document.getElementById(`pkg-${pId}`);
+                if (el) {
+                    el.classList.remove('border-amber-500', 'shadow-[0_0_20px_rgba(212,175,55,0.25)]', 'bg-amber-950/10');
+                    el.classList.add('border-stone-800');
+                }
+            });
+
+            // Aplicar estilo de selección a la tarjeta actual
+            const selectedEl = document.getElementById(`pkg-${id}`);
+            if (selectedEl) {
+                selectedEl.classList.remove('border-stone-800');
+                selectedEl.classList.add('border-amber-500', 'shadow-[0_0_20px_rgba(212,175,55,0.25)]', 'bg-amber-950/10');
+            }
+
+            updatePackageTotal();
+        }
+
+        // --- MANEJO DEL DISEÑADOR A LA MEDIDA ---
+        function renderCustomItems() {
+            const container = document.getElementById('custom-services-container');
+            container.innerHTML = '';
+
+            customItems.forEach((item) => {
                 const card = document.createElement('div');
                 
                 if (item.type === "checkbox") {
-                    const isSelected = selectedItems[item.id] === true;
-                    card.className = `bg-stone-900/60 border ${isSelected ? 'border-amber-500 shadow-[0_0_15px_rgba(212,175,55,0.15)] bg-amber-950/5' : 'border-stone-800'} rounded-2xl p-4 hover:border-amber-500/40 transition-all duration-300 flex flex-col justify-between gap-3 cursor-pointer`;
+                    const isSelected = selectedCustomItems[item.id] === true;
+                    card.className = `bg-stone-900 border ${isSelected ? 'border-amber-500 bg-amber-950/5 shadow-[0_0_15px_rgba(212,175,55,0.15)]' : 'border-stone-800'} rounded-2xl p-4 hover:border-amber-500/40 transition-all duration-300 flex flex-col justify-between gap-2.5 cursor-pointer`;
                     
                     card.onclick = () => {
-                        togglePackageSelection(item.id);
+                        toggleCustomSelection(item.id);
                     };
 
                     card.innerHTML = `
@@ -459,14 +660,14 @@
                                 <div class="w-5 h-5 rounded-full border ${isSelected ? 'border-amber-500 bg-amber-500 text-stone-950' : 'border-stone-600'} flex items-center justify-center transition-all flex-shrink-0">
                                     ${isSelected ? '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>' : ''}
                                 </div>
-                                <h3 class="text-lg font-bold font-serif-spa text-white leading-tight">${item.name}</h3>
+                                <h3 class="text-base font-bold font-serif-spa text-white leading-tight">${item.name}</h3>
                             </div>
                         </div>
                         <p class="text-stone-400 text-xs leading-relaxed pl-8">${item.desc}</p>
                     `;
                 } else if (item.type === "counter") {
-                    const qty = selectedItems[item.id] || 0;
-                    card.className = `bg-stone-900/60 border ${qty > 0 ? 'border-amber-500 shadow-[0_0_15px_rgba(212,175,55,0.15)] bg-amber-950/5' : 'border-stone-800'} rounded-2xl p-4 hover:border-amber-500/40 transition-all duration-300 flex flex-col justify-between gap-3`;
+                    const qty = selectedCustomItems[item.id] || 0;
+                    card.className = `bg-stone-900 border ${qty > 0 ? 'border-amber-500 bg-amber-950/5 shadow-[0_0_15px_rgba(212,175,55,0.15)]' : 'border-stone-800'} rounded-2xl p-4 hover:border-amber-500/40 transition-all duration-300 flex flex-col justify-between gap-2.5`;
                     
                     card.innerHTML = `
                         <div class="flex justify-between items-center">
@@ -474,7 +675,7 @@
                                 <div class="w-5 h-5 rounded-full border ${qty > 0 ? 'border-amber-500 bg-amber-500 text-stone-950' : 'border-stone-600'} flex items-center justify-center transition-all flex-shrink-0">
                                     ${qty > 0 ? '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>' : ''}
                                 </div>
-                                <h3 class="text-lg font-bold font-serif-spa text-white leading-tight">${item.name}</h3>
+                                <h3 class="text-base font-bold font-serif-spa text-white leading-tight">${item.name}</h3>
                             </div>
                             
                             <!-- Control numérico de incremento/decremento -->
@@ -487,65 +688,81 @@
                         <p class="text-stone-400 text-xs leading-relaxed pl-8">${item.desc}</p>
                     `;
                 }
-                
+
                 container.appendChild(card);
             });
-
-            updateTotalAndButton();
         }
 
-        // Alterna la selección para checkboxes
-        function togglePackageSelection(itemId) {
-            selectedItems[itemId] = !selectedItems[itemId];
-            renderPackages();
+        // Alterna la selección de checkboxes a la medida
+        function toggleCustomSelection(itemId) {
+            selectedCustomItems[itemId] = !selectedCustomItems[itemId];
+            renderCustomItems();
+            updatePackageTotal();
         }
 
-        // Modifica la cantidad de cervezas
+        // Modifica la cantidad de cervezas a la medida
         function changeBeerQty(itemId, amount) {
-            const currentQty = selectedItems[itemId] || 0;
-            const item = packageItems.find(p => p.id === itemId);
+            const currentQty = selectedCustomItems[itemId] || 0;
+            const item = customItems.find(i => i.id === itemId);
             const newQty = Math.max(0, Math.min(item.max, currentQty + amount));
-            selectedItems[itemId] = newQty;
-            renderPackages();
+            selectedCustomItems[itemId] = newQty;
+            renderCustomItems();
+            updatePackageTotal();
         }
 
-        // Calcula el total general en tiempo real e inhabilita si no hay selección
-        function updateTotalAndButton() {
+        // --- CALCULO DEL TOTAL GENERAL EN TIEMPO REAL ---
+        function updatePackageTotal() {
             let total = 0;
             let hasSelection = false;
 
-            packageItems.forEach(item => {
-                if (item.type === "checkbox" && selectedItems[item.id]) {
-                    total += item.price;
-                    hasSelection = true;
-                } else if (item.type === "counter" && selectedItems[item.id] > 0) {
-                    total += selectedItems[item.id] * item.price;
+            if (currentMode === "predesigned") {
+                if (selectedPrepackageId !== null) {
+                    total = predesignedPackages[selectedPrepackageId].price;
                     hasSelection = true;
                 }
-            });
+            } else {
+                customItems.forEach(item => {
+                    if (item.type === "checkbox" && selectedCustomItems[item.id]) {
+                        total += item.price;
+                        hasSelection = true;
+                    } else if (item.type === "counter" && selectedCustomItems[item.id] > 0) {
+                        total += selectedCustomItems[item.id] * item.price;
+                        hasSelection = true;
+                    }
+                });
+            }
 
-            // Formatear precio total
+            // Actualizar interfaz del total
             document.getElementById('package-total').innerText = `$${total} MXN`;
 
             const btn = document.getElementById('btn-continue-packages');
             if (hasSelection) {
                 btn.removeAttribute('disabled');
-                btn.className = "w-full sm:w-auto bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold py-3.5 px-10 rounded-full text-lg tracking-wide transition-all duration-300 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20 hover:scale-[1.02] text-center";
+                btn.className = "w-full sm:w-auto bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold py-3.5 px-10 rounded-full text-lg tracking-wide transition-all duration-300 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20 hover:scale-[1.02] text-center cursor-pointer";
             } else {
                 btn.setAttribute('disabled', 'true');
                 btn.className = "w-full sm:w-auto bg-stone-800 text-stone-500 font-bold py-3.5 px-10 rounded-full text-lg tracking-wide cursor-not-allowed text-center border border-stone-700/50 opacity-60";
             }
         }
 
-        // Procesa la colección del paquete armada
+        // Procesa la confirmación del paquete seleccionado
         function processPackageSelection() {
-            const beerQty = selectedItems["cerveza"] || 0;
+            let hasBeer = false;
 
-            // Si seleccionó al menos una cerveza (Cerveza > 0), mostrar el cuestionario
-            if (beerQty > 0) {
+            if (currentMode === "predesigned") {
+                if (selectedPrepackageId !== null) {
+                    hasBeer = predesignedPackages[selectedPrepackageId].hasBeer;
+                }
+            } else {
+                const beerQty = selectedCustomItems["cerveza"] || 0;
+                hasBeer = beerQty > 0;
+            }
+
+            // Redirección de flujo basada en si la selección contiene cerveza
+            if (hasBeer) {
                 startQuiz();
             } else {
-                // Si no seleccionó cerveza, se salta el cuestionario de forma directa
+                // Si no hay cerveza seleccionada, se salta el cuestionario
                 saveReservation("Ninguna (No seleccionó cerveza)", "No");
             }
         }
@@ -560,17 +777,20 @@
 
         function renderQuestion() {
             const q = questions[currentQuestionIndex];
+            
+            // UI Updates
             document.getElementById('progress-text').innerText = `Pregunta ${currentQuestionIndex + 1} de ${questions.length}`;
             document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
             document.getElementById('question-text').innerText = q.text;
 
             const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
+            optionsContainer.innerHTML = ''; // Limpiar opciones anteriores
 
             q.options.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = "w-full text-left bg-stone-800/60 hover:bg-emerald-950/50 border border-stone-800 hover:border-amber-500/50 rounded-2xl p-4 transition-all duration-300 text-stone-300 hover:text-white flex items-start gap-4 group";
+                btn.className = "w-full text-left bg-stone-800/60 hover:bg-emerald-950/50 border border-stone-800 hover:border-amber-500/50 rounded-2xl p-4 transition-all duration-300 text-stone-300 hover:text-white flex items-start gap-4 group cursor-pointer";
                 
+                // Formato del botón (Letra en un círculo dorado + texto)
                 btn.innerHTML = `
                     <span class="flex-shrink-0 w-8 h-8 rounded-full bg-stone-950 group-hover:bg-amber-500 group-hover:text-stone-950 flex items-center justify-center font-bold border border-stone-800 group-hover:border-amber-500 transition-all duration-300">
                         ${opt.letter}
@@ -584,6 +804,7 @@
         }
 
         function handleAnswer(letter, text) {
+            // Guardar respuesta
             userAnswers.push({
                 question: questions[currentQuestionIndex].text,
                 answer: text,
@@ -593,6 +814,7 @@
             currentQuestionIndex++;
 
             if (currentQuestionIndex < questions.length) {
+                // Pequeño retraso para que se vea qué apretó antes de cambiar
                 setTimeout(renderQuestion, 200);
             } else {
                 calculateResults();
@@ -600,11 +822,13 @@
         }
 
         function calculateResults() {
+            // Contar las letras
             const counts = {};
             userAnswers.forEach(ans => {
                 counts[ans.letter] = (counts[ans.letter] || 0) + 1;
             });
 
+            // Encontrar la letra con más votos
             let maxVotes = 0;
             for (const letter in counts) {
                 if (counts[letter] > maxVotes) {
@@ -628,6 +852,7 @@
             
             document.getElementById('btn-confirm').classList.add('hidden');
 
+            // Crear Radio Buttons estilizados interactivos estilo Spa
             profile.beers.forEach((beer) => {
                 const div = document.createElement('div');
                 div.className = "flex items-center bg-stone-900/80 p-4 rounded-xl border border-stone-800 cursor-pointer hover:border-amber-500/30 hover:bg-emerald-950/20 transition-all duration-300 shadow-sm";
@@ -645,9 +870,11 @@
             switchView('view-result');
         }
 
+        // Selecciona una cerveza de la lista ("Select Point")
         function selectBeer(beer, element) {
             selectedBeer = beer;
             
+            // Limpiar estados de selección previa
             document.querySelectorAll('.radio-indicator').forEach(el => {
                 el.classList.remove('border-amber-500');
                 el.classList.add('border-stone-700');
@@ -658,6 +885,7 @@
                 el.classList.add('border-stone-800');
             });
             
+            // Marcar opción actual
             const indicator = element.querySelector('.radio-indicator');
             const dot = element.querySelector('.inner-dot');
             indicator.classList.remove('border-stone-700');
@@ -669,13 +897,20 @@
             document.getElementById('btn-confirm').classList.remove('hidden');
         }
 
-        // Confirmación de Cerveza
+        // Confirmación de la cerveza elegida
         function confirmBeer() {
-            const beerQty = selectedItems["cerveza"] || 0;
+            // Recuperar cantidad de cervezas seleccionadas
+            let beerQty = 0;
+            if (currentMode === "predesigned") {
+                beerQty = 1; // Los paquetes prediseñados 1 y 2 incluyen por defecto 1 cortesía de cerveza
+            } else {
+                beerQty = selectedCustomItems["cerveza"] || 0;
+            }
+
             saveReservation(selectedBeer, "Sí", beerQty);
         }
 
-        // --- SISTEMA DE GUARDADO ---
+        // --- SISTEMA DE GENERACIÓN DE FOLIO Y GUARDADO ---
         function generateFolio() {
             const prefix = "SNK";
             const date = new Date();
@@ -689,19 +924,27 @@
         async function saveReservation(beerName, hasBeer, beerQty = 0) {
             const folio = generateFolio();
             
-            // Recopilar nombres de servicios seleccionados para el resumen
+            // Recopilar nombres de servicios seleccionados para el resumen y total final
             const activeServices = [];
             let totalInversion = 0;
 
-            packageItems.forEach(item => {
-                if (item.type === "checkbox" && selectedItems[item.id]) {
-                    activeServices.push(item.name);
-                    totalInversion += item.price;
-                } else if (item.type === "counter" && selectedItems[item.id] > 0) {
-                    activeServices.push(`${item.name} (x${selectedItems[item.id]})`);
-                    totalInversion += selectedItems[item.id] * item.price;
+            if (currentMode === "predesigned") {
+                if (selectedPrepackageId !== null) {
+                    const pkg = predesignedPackages[selectedPrepackageId];
+                    activeServices.push(pkg.name);
+                    totalInversion = pkg.price;
                 }
-            });
+            } else {
+                customItems.forEach(item => {
+                    if (item.type === "checkbox" && selectedCustomItems[item.id]) {
+                        activeServices.push(item.name);
+                        totalInversion += item.price;
+                    } else if (item.type === "counter" && selectedCustomItems[item.id] > 0) {
+                        activeServices.push(`${item.name} (x${selectedCustomItems[item.id]})`);
+                        totalInversion += selectedCustomItems[item.id] * item.price;
+                    }
+                });
+            }
 
             // UI Updates de la pantalla final
             document.getElementById('final-folio-text').innerText = folio;
@@ -718,6 +961,7 @@
 
             switchView('view-final');
 
+            // Guardar registro de la sesión en Firebase Firestore en segundo plano
             if (firebaseActivo && currentUser) {
                 const ordersRef = collection(db, 'artifacts', appId, 'public', 'data', 'orders');
                 try {
@@ -732,7 +976,7 @@
                         timestamp: Date.now()
                     });
                 } catch (error) {
-                    console.error("Error al guardar reserva:", error);
+                    console.error("Error al guardar reserva en base de datos:", error);
                 }
             }
         }
