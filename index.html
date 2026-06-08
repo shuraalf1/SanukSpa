@@ -317,7 +317,7 @@
             </div>
 
             <p class="text-stone-400 text-sm max-w-sm mx-auto leading-relaxed px-4">
-                Tu solicitud de pedido ha sido registrada en nuestro sistema de <strong>Sanuk Spa</strong>. Recuerda comunicarte con nosotros para finalizar la confirmación de tu experiencia.
+                Tu solicitud de pedido ha sido registrada en nuestro sistema de <strong>Sanuk Spa</strong>. Recuerda comunicarte con nosotros para compartir tu código y finalizar la confirmación de tu experiencia al 4142 3199 86.
             </p>
             <div class="w-12 h-[1px] bg-amber-500/30 mx-auto my-4"></div>
             <p class="text-amber-400 font-semibold font-serif-spa text-lg">
@@ -944,7 +944,12 @@
             // Recuperar cantidad de cervezas seleccionadas
             let beerQty = 0;
             if (currentMode === "predesigned") {
-                beerQty = 1; // Los paquetes prediseñados 1 y 2 incluyen por defecto 1 cortesía de cerveza
+                // Modificado: Los paquetes 1 y 2 incluyen 3 cervezas de cortesía
+                if (selectedPrepackageId === 1 || selectedPrepackageId === 2) {
+                    beerQty = 3; 
+                } else {
+                    beerQty = 0;
+                }
             } else {
                 const individualBeers = selectedCustomItems["cerveza"] || 0;
                 const giftBoxBeers = selectedCustomItems["caja_regalo"] ? 3 : 0;
