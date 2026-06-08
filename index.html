@@ -269,6 +269,40 @@
             </button>
         </div>
 
+        <!-- PANTALLA DE DATOS DE CONTACTO -->
+        <div id="view-contact" class="hidden-view fade-in">
+            <div class="flex justify-between items-center mb-5">
+                <button onclick="handleContactBack()" class="flex items-center gap-1.5 text-stone-400 hover:text-amber-500 transition-colors text-xs font-semibold tracking-widest uppercase">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    Regresar
+                </button>
+                <span class="text-xs bg-stone-850 text-stone-400 border border-stone-700 px-2.5 py-1 rounded-md font-semibold tracking-wider uppercase">Paso Final</span>
+            </div>
+            
+            <div class="text-center mb-6">
+                <div class="text-amber-500 text-xs tracking-widest uppercase font-semibold mb-2">Completa tu Registro</div>
+                <h2 class="text-3xl font-bold font-serif-spa text-white mb-2">Datos de Contacto</h2>
+                <p class="text-stone-300 text-sm max-w-md mx-auto">Para agendar tu sesión y tener listo tu pedido en Sanuk Spa, por favor compártenos tus datos de contacto.</p>
+            </div>
+            
+            <div class="space-y-5 bg-stone-950/40 rounded-2xl p-6 border border-stone-800 shadow-inner">
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-amber-500/80 font-bold mb-2">Nombre del Papá / Solicitante</label>
+                    <input type="text" id="contact-name" placeholder="Ej: Roberto Sánchez" class="w-full bg-stone-900 text-white border border-stone-850 rounded-xl p-3.5 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all text-base placeholder-stone-700">
+                    <p id="error-name" class="text-rose-400 text-xs mt-1.5 hidden flex items-center gap-1">⚠️ Por favor, ingresa un nombre válido (mínimo 3 caracteres).</p>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-amber-500/80 font-bold mb-2">Número Celular (10 dígitos)</label>
+                    <input type="tel" id="contact-phone" placeholder="Ej: 5512345678" maxlength="10" class="w-full bg-stone-900 text-white border border-stone-850 rounded-xl p-3.5 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all text-base font-mono placeholder-stone-700">
+                    <p id="error-phone" class="text-rose-400 text-xs mt-1.5 hidden flex items-center gap-1">⚠️ Por favor, ingresa un número de celular válido a 10 dígitos.</p>
+                </div>
+            </div>
+            
+            <button onclick="submitContact()" class="w-full mt-6 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold py-3.5 px-8 rounded-full text-base tracking-wide transition-all duration-300 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20 hover:scale-[1.02] text-center">
+                Completar Registro y Reservar 🎋
+            </button>
+        </div>
+
         <!-- PANTALLA FINAL -->
         <div id="view-final" class="hidden-view fade-in text-center py-6">
             <div class="flex justify-center mb-6">
@@ -279,6 +313,7 @@
             </div>
             <div class="text-5xl mb-4">✨🎋</div>
             <h2 class="text-3xl sm:text-4xl font-bold font-serif-spa text-white mb-2">¡Pedido Completado!</h2>
+            <p class="text-amber-400 font-serif-spa text-lg font-semibold mb-3">¡Muchas gracias, <span id="final-client-name"></span>!</p>
             <p class="text-stone-300 text-base mb-2 px-4 leading-relaxed">
                 Contacta a Sanuk para realizar la reservación. <br>
                 <span class="text-amber-500/90 text-sm font-medium italic block mt-1.5">
@@ -287,6 +322,10 @@
             </p>
             
             <div class="max-w-md mx-auto bg-stone-950/30 rounded-2xl p-6 border border-stone-800 text-left space-y-4 mb-6">
+                <div>
+                    <span class="text-amber-500/80 uppercase text-xs tracking-widest block font-semibold">Cliente:</span>
+                    <span id="final-client-text" class="text-white text-base font-medium leading-relaxed block mt-1"></span>
+                </div>
                 <div>
                     <span class="text-amber-500/80 uppercase text-xs tracking-widest block font-semibold">Folio de Pedido:</span>
                     <span id="final-folio-text" class="text-amber-400 text-xl font-mono font-bold tracking-wider"></span>
@@ -317,7 +356,7 @@
             </div>
 
             <p class="text-stone-400 text-sm max-w-sm mx-auto leading-relaxed px-4">
-                Tu solicitud de pedido ha sido registrada en nuestro sistema de <strong>Sanuk Spa</strong>. Recuerda comunicarte con nosotros para compartir tu código y finalizar la confirmación de tu experiencia al 4142 3199 86.
+                Tu solicitud de pedido ha sido registrada en nuestro sistema de <strong>Sanuk Spa</strong>. Recuerda comunicarte con nosotros para finalizar la confirmación de tu experiencia.
             </p>
             <div class="w-12 h-[1px] bg-amber-500/30 mx-auto my-4"></div>
             <p class="text-amber-400 font-semibold font-serif-spa text-lg">
@@ -364,6 +403,10 @@
         window.handleQuizBack = handleQuizBack;
         window.switchSelectionViewFromResults = switchSelectionViewFromResults;
         window.switchView = switchView;
+        
+        // Exponer funciones del formulario de contacto
+        window.handleContactBack = handleContactBack;
+        window.submitContact = submitContact;
         
         // Exponer funciones de ampliación de imagen globales
         window.openImageModal = openImageModal;
@@ -800,8 +843,8 @@
             if (hasBeer) {
                 startQuiz();
             } else {
-                // Si no hay cerveza seleccionada, se salta el cuestionario
-                saveReservation("Ninguna (No seleccionó cerveza)", "", "No");
+                // Si no hay cerveza seleccionada, se salta el cuestionario pero pide los datos de contacto
+                prepareContactView("Ninguna (No seleccionó cerveza)", "", "No", 0);
             }
         }
 
@@ -956,7 +999,78 @@
                 beerQty = individualBeers + giftBoxBeers;
             }
 
-            saveReservation(selectedBeer, selectedBeerOrigin, "Sí", beerQty);
+            prepareContactView(selectedBeer, selectedBeerOrigin, "Sí", beerQty);
+        }
+
+        // --- SISTEMA DE DATOS DE CONTACTO Y GUARDADO ---
+        window.tempReservationData = null;
+
+        function prepareContactView(beerName, beerOrigin, hasBeer, beerQty = 0) {
+            window.tempReservationData = {
+                beerName: beerName,
+                beerOrigin: beerOrigin,
+                hasBeer: hasBeer,
+                beerQty: beerQty
+            };
+            
+            // Limpiar inputs y errores
+            document.getElementById('contact-name').value = '';
+            document.getElementById('contact-phone').value = '';
+            document.getElementById('contact-name').classList.remove('border-rose-500/50');
+            document.getElementById('contact-phone').classList.remove('border-rose-500/50');
+            document.getElementById('error-name').classList.add('hidden');
+            document.getElementById('error-phone').classList.add('hidden');
+            
+            switchView('view-contact');
+        }
+
+        function handleContactBack() {
+            if (window.tempReservationData && window.tempReservationData.hasBeer === "Sí") {
+                switchView('view-result');
+            } else {
+                switchView('view-packages');
+            }
+        }
+
+        function submitContact() {
+            const nameInput = document.getElementById('contact-name');
+            const phoneInput = document.getElementById('contact-phone');
+            
+            const nameVal = nameInput.value.trim();
+            const phoneVal = phoneInput.value.replace(/\D/g, ''); // Solo números
+
+            let isValid = true;
+
+            // Validación de Nombre
+            if (nameVal.length < 3) {
+                document.getElementById('error-name').classList.remove('hidden');
+                nameInput.classList.add('border-rose-500/50');
+                isValid = false;
+            } else {
+                document.getElementById('error-name').classList.add('hidden');
+                nameInput.classList.remove('border-rose-500/50');
+            }
+
+            // Validación de Teléfono (10 dígitos exactos)
+            if (phoneVal.length !== 10) {
+                document.getElementById('error-phone').classList.remove('hidden');
+                phoneInput.classList.add('border-rose-500/50');
+                isValid = false;
+            } else {
+                document.getElementById('error-phone').classList.add('hidden');
+                phoneInput.classList.remove('border-rose-500/50');
+            }
+
+            if (!isValid) return;
+
+            saveReservation(
+                window.tempReservationData.beerName, 
+                window.tempReservationData.beerOrigin, 
+                window.tempReservationData.hasBeer, 
+                window.tempReservationData.beerQty,
+                nameVal,
+                phoneVal
+            );
         }
 
         // --- SISTEMA DE GENERACIÓN DE FOLIO Y GUARDADO ---
@@ -970,7 +1084,7 @@
             return `${prefix}-${yy}${mm}${dd}-${random}`;
         }
 
-        async function saveReservation(beerName, beerOrigin, hasBeer, beerQty = 0) {
+        async function saveReservation(beerName, beerOrigin, hasBeer, beerQty = 0, clientName, clientPhone) {
             const folio = generateFolio();
             
             // Recopilar nombres de servicios seleccionados para el resumen y total final
@@ -996,6 +1110,8 @@
             }
 
             // UI Updates de la pantalla final
+            document.getElementById('final-client-name').innerText = clientName;
+            document.getElementById('final-client-text').innerText = `${clientName} (Cel: ${clientPhone})`;
             document.getElementById('final-folio-text').innerText = folio;
             document.getElementById('final-massage-text').innerText = activeServices.join(", ");
             document.getElementById('final-total-text').innerText = `$${totalInversion} MXN`;
@@ -1017,6 +1133,8 @@
                 try {
                     await addDoc(ordersRef, {
                         folio: folio,
+                        clientName: clientName,
+                        clientPhone: clientPhone,
                         services: activeServices,
                         withBeer: hasBeer,
                         beerStyle: hasBeer === "Sí" ? beerName : "Ninguno",
